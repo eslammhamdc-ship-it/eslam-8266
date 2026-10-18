@@ -1,0 +1,102 @@
+$ cd packages/web && bunx vite
+(node:2789) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+  VITE v7.3.2  ready in 565 ms
+
+  ➜  Local:   http://localhost:4200/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+12:58:31 PM [vite] (client) page reload index.html
+1:00:43 PM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/entry.tsx, /src/web/pages/sign-in.tsx, /src/web/pages/workspace.tsx, /src/web/components/record-form.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx, /src/web/components/record-form.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css
+1:03:27 PM [vite] (ssr) page reload src/api/routes/crm.ts
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx, /src/web/components/record-form.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx, /src/web/components/record-form.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/entry.tsx, /src/web/pages/sign-in.tsx, /src/web/pages/workspace.tsx, /src/web/components/record-form.tsx
+1:03:27 PM [vite] (client) hmr update /src/web/styles.css
+1:03:27 PM [vite] (ssr) page reload src/api/routes/crm.ts
+2:51:30 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+2:51:30 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/sign-in.tsx
+2:51:31 AM [vite] (client) page reload index.html
+2:51:31 AM [vite] (client) hmr update /src/web/styles.css
+2:51:31 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+2:52:24 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+2:54:27 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+2:54:27 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+2:55:07 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+8:06:45 PM [vite] (client) hmr update /src/web/styles.css
+8:06:45 PM [vite] (ssr) page reload src/api/index.ts
+8:06:45 PM [vite] (client) hmr update /src/web/styles.css
+8:06:45 PM [vite] (ssr) page reload src/api/routes/crm.ts
+8:06:45 PM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx, /src/web/components/record-form.tsx, /src/web/components/sales-tools.tsx
+8:06:45 PM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+[2m2026-10-16T20:28:05.454Z[0m [31mERROR[0m [1m[Better Auth]:[0m INTERNAL_SERVER_ERROR DrizzleQueryError: Failed query: select "id", "expires_at", "token", "created_at", "updated_at", "ip_address", "user_agent", "user_id" from "session" where "session"."token" = ?
+params: P19Q4XYBAS1wURUL7wGv9zMS2KLOWFwe
+    at LibSQLPreparedQuery.queryWithCache (file:///home/user/midway-crm/node_modules/.bun/drizzle-orm@0.45.2+4c72a294ad61dd71/node_modules/drizzle-orm/sqlite-core/session.js:43:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async LibSQLPreparedQuery.values (file:///home/user/midway-crm/node_modules/.bun/drizzle-orm@0.45.2+4c72a294ad61dd71/node_modules/drizzle-orm/libsql/session.js:193:12)
+    at async LibSQLPreparedQuery.all (file:///home/user/midway-crm/node_modules/.bun/drizzle-orm@0.45.2+4c72a294ad61dd71/node_modules/drizzle-orm/libsql/session.js:136:18)
+    at async Object.findOne (file:///home/user/midway-crm/node_modules/.bun/@better-auth+drizzle-adapter@1.6.19+4e7d64d7f367c842/node_modules/@better-auth/drizzle-adapter/dist/index.mjs:367:17)
+    at async Object.findOne (file:///home/user/midway-crm/node_modules/.bun/@better-auth+core@1.6.19+36361b84441ab95a/node_modules/@better-auth/core/dist/db/adapter/factory.mjs:556:16)
+    at async Object.findSession (file:///home/user/midway-crm/node_modules/.bun/better-auth@1.6.19+20f3ef1a1bd46483/node_modules/better-auth/dist/db/internal-adapter.mjs:246:19)
+    at async file:///home/user/midway-crm/node_modules/.bun/better-auth@1.6.19+20f3ef1a1bd46483/node_modules/better-auth/dist/api/routes/session.mjs:178:19
+    at async wrapped (file:///home/user/midway-crm/node_modules/.bun/@better-auth+core@1.6.19+36361b84441ab95a/node_modules/@better-auth/core/dist/api/index.mjs:40:11)
+    at async internalHandler (file:///home/user/midway-crm/node_modules/.bun/better-call@1.3.6+3c5d820c62823f0b/node_modules/better-call/dist/endpoint.mjs:30:20)
+    at async file:///home/user/midway-crm/node_modules/.bun/better-auth@1.6.19+20f3ef1a1bd46483/node_modules/better-auth/dist/api/dispatch.mjs:228:18
+    at async eval (/home/user/midway-crm/packages/web/src/api/middleware/auth.ts:11:19)
+    at async file:///home/user/midway-crm/node_modules/.bun/@orpc+server@1.14.7+2aa78686a1f37a5b/node_modules/@orpc/server/dist/shared/server.DEBcqOjg.mjs:216:24
+    at async next (file:///home/user/midway-crm/node_modules/.bun/@orpc+server@1.14.7+2aa78686a1f37a5b/node_modules/@orpc/server/dist/shared/server.DEBcqOjg.mjs:211:26)
+    at async file:///home/user/midway-crm/node_modules/.bun/@orpc+server@1.14.7+2aa78686a1f37a5b/node_modules/@orpc/server/dist/shared/server.DEBcqOjg.mjs:111:22
+    at async file:///home/user/midway-crm/node_modules/.bun/@orpc+server@1.14.7+2aa78686a1f37a5b/node_modules/@orpc/server/dist/shared/server.ZxHCEN1h.mjs:82:34
+    at async file:///home/user/midway-crm/node_modules/.bun/@orpc+server@1.14.7+2aa78686a1f37a5b/node_modules/@orpc/server/dist/shared/server.ZxHCEN1h.mjs:47:22
+    at async file:///home/user/midway-crm/node_modules/.bun/@orpc+server@1.14.7+2aa78686a1f37a5b/node_modules/@orpc/server/dist/adapters/fetch/index.mjs:156:24
+    at async eval (/home/user/midway-crm/packages/web/src/api/__core/app.ts:26:35)
+    at async dispatch (file:///home/user/midway-crm/node_modules/.bun/hono@4.12.10/node_modules/hono/dist/compose.js:22:17)
+    at async cors2 (file:///home/user/midway-crm/node_modules/.bun/hono@4.12.10/node_modules/hono/dist/middleware/cors/index.js:82:5)
+    at async dispatch (file:///home/user/midway-crm/node_modules/.bun/hono@4.12.10/node_modules/hono/dist/compose.js:22:17)
+    at async file:///home/user/midway-crm/node_modules/.bun/hono@4.12.10/node_modules/hono/dist/hono-base.js:301:25
+    at async file:///home/user/midway-crm/packages/web/node_modules/.vite-temp/vite.config.ts.timestamp-1792068748375-6e2e66c3d3732.mjs:88:28 {
+  query: 'select "id", "expires_at", "token", "created_at", "updated_at", "ip_address", "user_agent", "user_id" from "session" where "session"."token" = ?',
+  params: [ 'P19Q4XYBAS1wURUL7wGv9zMS2KLOWFwe' ],
+  cause: FetchError: request to https://6935c961-c190-482d-b00a-445c66d36fcd-runable.aws-us-east-2.turso.io/v2/pipeline failed, reason: socket hang up
+      at ClientRequest.<anonymous> (/home/user/midway-crm/node_modules/.bun/node-fetch@2.7.0/node_modules/node-fetch/lib/index.js:1501:11)
+      at ClientRequest.emit (node:events:514:20)
+      at emitErrorEvent (node:_http_client:114:11)
+      at TLSSocket.socketOnEnd (node:_http_client:800:5)
+      at TLSSocket.emit (node:events:526:24)
+      at endReadableNT (node:internal/streams/readable:1980:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    type: 'system',
+    errno: 'ECONNRESET',
+    code: 'ECONNRESET'
+  }
+}
+11:50:49 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+11:50:52 AM [vite] (client) hmr update /src/web/styles.css
+11:50:52 AM [vite] (ssr) page reload src/api/routes/planning.ts
+11:50:52 AM [vite] (client) hmr update /src/web/styles.css
+11:50:52 AM [vite] (ssr) page reload src/api/routes/crm.ts
+11:50:52 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+11:50:52 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+11:50:52 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+11:53:24 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+11:53:24 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+11:53:24 AM [vite] (client) hmr update /src/web/styles.css
+11:53:24 AM [vite] (client) hmr update /src/web/styles.css
+11:54:46 AM [vite] (client) hmr update /src/web/styles.css
+11:54:49 AM [vite] (client) ✨ new dependencies optimized: leaflet
+11:54:49 AM [vite] (client) ✨ optimized dependencies changed. reloading
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/geo-planner.tsx
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css
+11:58:59 AM [vite] (ssr) page reload src/api/routes/crm.ts
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/record-form.tsx
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css, /src/web/components/geo-planner.tsx
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css, /src/web/pages/workspace.tsx
+11:58:59 AM [vite] (client) hmr update /src/web/styles.css
+11:58:59 AM [vite] (ssr) page reload src/api/routes/crm.ts

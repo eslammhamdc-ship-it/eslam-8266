@@ -1,0 +1,147 @@
+$ runkit lint
+Checked 21 files in 46ms. No violations found.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+     ,-[packages/web/src/web/components/record-form.tsx:138:11]
+ 137 |             ) : (
+ 138 | ,->           <input
+ 139 | |               type={f.type || "text"}
+ 140 | |               min={f.type === "number" ? 0 : undefined}
+ 141 | |               max={f.key === "probability" ? 100 : undefined}
+ 142 | |               value={dt(val, f.type)}
+ 143 | |               required={f.required}
+ 144 | |               onChange={(e) => set(f.key, e.target.value)}
+ 145 | `->           />
+ 146 |             )}
+     `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+     ,-[packages/web/src/web/components/record-form.tsx:199:25]
+ 198 |                             <span>{["الاسم", "الوظيفة", "التليفون", "البريد"][j]}</span>
+ 199 | ,->                         <input
+ 200 | |                             type={k === "email" ? "email" : "text"}
+ 201 | |                             value={c[k]}
+ 202 | |                             onChange={(e) =>
+ 203 | |                               set(
+ 204 | |                                 "contacts",
+ 205 | |                                 data.contacts.map((x: any, n: number) =>
+ 206 | |                                   n === i ? { ...x, [k]: e.target.value } : x,
+ 207 | |                                 ),
+ 208 | |                               )
+ 209 | |                             }
+ 210 | `->                         />
+ 211 |                           </label>
+     `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+     ,-[packages/web/src/web/components/record-form.tsx:254:21]
+ 253 |                       <label className="check">
+ 254 | ,->                     <input
+ 255 | |                         type="checkbox"
+ 256 | |                         checked={duplicate}
+ 257 | |                         onChange={(e) => setDuplicate(e.target.checked)}
+ 258 | `->                     />
+ 259 |                         أؤكد أن هذه شركة مختلفة وأريد حفظها رغم التشابه
+     `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+     ,-[packages/web/src/web/pages/workspace.tsx:827:13]
+ 826 |                 <Search size={18} />
+ 827 | ,->             <input
+ 828 | |                 placeholder="دوّر بالاسم، التليفون أو الشخص المسؤول…"
+ 829 | |                 value={search}
+ 830 | |                 onChange={(e) => setSearch(e.target.value)}
+ 831 | `->             />
+ 832 |               </label>
+     `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+     ,-[packages/web/src/web/pages/workspace.tsx:982:13]
+ 981 |                 <Search size={18} />
+ 982 | ,->             <input
+ 983 | |                 placeholder="دوّر في الزيارات والتفاصيل…"
+ 984 | |                 value={search}
+ 985 | |                 onChange={(e) => setSearch(e.target.value)}
+ 986 | `->             />
+ 987 |               </label>
+     `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+      ,-[packages/web/src/web/pages/workspace.tsx:1091:13]
+ 1090 |                 <Search size={18} />
+ 1091 | ,->             <input
+ 1092 | |                 placeholder="دوّر بالشركة أو الخطوة المطلوبة…"
+ 1093 | |                 value={search}
+ 1094 | |                 onChange={(e) => setSearch(e.target.value)}
+ 1095 | `->             />
+ 1096 |               </label>
+      `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+      ,-[packages/web/src/web/pages/workspace.tsx:1129:13]
+ 1128 |                 <Search size={18} />
+ 1129 | ,->             <input
+ 1130 | |                 placeholder="دوّر في الشركات والفرص…"
+ 1131 | |                 value={search}
+ 1132 | |                 onChange={(e) => setSearch(e.target.value)}
+ 1133 | `->             />
+ 1134 |               </label>
+      `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+      ,-[packages/web/src/web/pages/workspace.tsx:1261:13]
+ 1260 |                 يوم الزيارات
+ 1261 | ,->             <input
+ 1262 | |                 type="date"
+ 1263 | |                 value={planDate}
+ 1264 | |                 onChange={(e) => {
+ 1265 | |                   setPlanDate(e.target.value);
+ 1266 | |                   setFilter("all");
+ 1267 | |                 }}
+ 1268 | `->             />
+ 1269 |               </label>
+      `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+      ,-[packages/web/src/web/pages/workspace.tsx:1689:17]
+ 1688 |                     استعادة نسخة JSON
+ 1689 | ,->                 <input
+ 1690 | |                     type="file"
+ 1691 | |                     accept=".json"
+ 1692 | |                     disabled={importBusy || rows.length > 0}
+ 1693 | |                     onChange={(e) => {
+ 1694 | |                       if (e.target.files?.[0]) importFile(e.target.files[0], true);
+ 1695 | |                       e.target.value = "";
+ 1696 | |                     }}
+ 1697 | `->                 />
+ 1698 |                   </label>
+      `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+  x jsx-a11y(control-has-associated-label): A control must be associated with a text label.
+      ,-[packages/web/src/web/pages/workspace.tsx:1734:17]
+ 1733 |                     {importBusy ? "جاري الاستيراد…" : "استيراد ملف CSV"}
+ 1734 | ,->                 <input
+ 1735 | |                     type="file"
+ 1736 | |                     accept=".csv"
+ 1737 | |                     disabled={importBusy}
+ 1738 | |                     onChange={(e) => {
+ 1739 | |                       if (e.target.files?.[0]) importFile(e.target.files[0]);
+ 1740 | |                       e.target.value = "";
+ 1741 | |                     }}
+ 1742 | `->                 />
+ 1743 |                   </label>
+      `----
+  help: Add a text label to the control element. This can be done by adding text content, an `aria-label` attribute, or an `aria-labelledby` attribute.
+
+Found 0 warnings and 10 errors.
+Finished in 167ms on 60 files with 152 rules using 2 threads.
+error: script "lint" exited with code 1

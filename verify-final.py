@@ -1,0 +1,6 @@
+import asyncio
+from playwright.async_api import async_playwright
+async def main():
+ async with async_playwright() as p:
+  b=await p.chromium.launch(executable_path='/usr/bin/google-chrome',headless=True,args=['--no-sandbox']);page=await b.new_page(viewport={'width':1440,'height':950});await page.goto('http://localhost:4200/');await page.get_by_label('البريد الإلكتروني',exact=True).fill('qa-midway-20261015@example.com');await page.get_by_label('كلمة المرور').fill('Midway-test-2026!');await page.get_by_role('button',name='تسجيل الدخول',exact=True).last.click();await page.get_by_role('heading',name='أول زيارة، أول خطوة').wait_for();await page.get_by_text('eslam b2b Sales attract',exact=True).wait_for();await page.screenshot(path='final-desktop.png',full_page=True);await page.set_viewport_size({'width':390,'height':844});await page.wait_for_timeout(400);await page.get_by_role('button',name='فتح القائمة').click();await page.wait_for_timeout(300);assert (await page.locator('.sidebar').bounding_box())['x']>=0;await page.locator('.sidebar nav button').filter(has_text='المتابعات').click();await page.get_by_role('heading',name='مواعيدك في تقويمك').wait_for();await page.screenshot(path='final-followups-mobile.png',full_page=True);print('PASS final title, empty genuine dashboard, mobile navigation, calendar tool');await b.close()
+asyncio.run(main())

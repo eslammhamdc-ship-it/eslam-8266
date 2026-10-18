@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "exportedAt": "2026-10-15T13:01:50.848Z",
+  "rows": [
+    {
+      "id": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "kind": "company",
+      "companyId": null,
+      "data": {
+        "name": "شركة اختبار الرحلات",
+        "status": "عميل محتمل",
+        "priority": "B",
+        "stage": "عميل محتمل جديد",
+        "contacts": [
+          {
+            "name": "أحمد",
+            "role": "مدير",
+            "phone": "",
+            "email": ""
+          }
+        ],
+        "usedServices": [],
+        "neededServices": [],
+        "phone": "01012345678",
+        "city": "القاهرة",
+        "neighborhood": "مدينة نصر"
+      },
+      "createdAt": "2026-10-15T12:59:56.776Z",
+      "updatedAt": "2026-10-15T12:59:56.776Z"
+    },
+    {
+      "id": "f2357b39-76a4-45a2-883b-9853a2cc756e",
+      "kind": "event",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "text": "إضافة الشركة — عميل محتمل — عميل محتمل جديد",
+        "relatedId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7"
+      },
+      "createdAt": "2026-10-15T12:59:56.776Z",
+      "updatedAt": "2026-10-15T12:59:56.776Z"
+    },
+    {
+      "id": "45a63a05-6b2e-4dd7-8e42-c3cdf3123b9f",
+      "kind": "visit",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "date": "2026-10-15T13:00:00.000Z",
+        "type": "أول زيارة",
+        "interest": "متوسط",
+        "services": [],
+        "outcome": "محتاج متابعة",
+        "channel": "واتساب",
+        "visitId": "",
+        "opportunityId": "",
+        "contact": "أحمد",
+        "nextAction": "إرسال أسعار العمرة",
+        "nextDue": "2026-10-14T14:00:00.000Z",
+        "needs": "محتاج أسعار مجموعات عمرة"
+      },
+      "createdAt": "2026-10-15T13:00:55.273Z",
+      "updatedAt": "2026-10-15T13:00:55.273Z"
+    },
+    {
+      "id": "3ec9d798-3515-421b-9d61-2fe08ef6a337",
+      "kind": "event",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "text": "إضافة زيارة",
+        "relatedId": "45a63a05-6b2e-4dd7-8e42-c3cdf3123b9f"
+      },
+      "createdAt": "2026-10-15T13:00:55.273Z",
+      "updatedAt": "2026-10-15T13:00:55.273Z"
+    },
+    {
+      "id": "4f02e0db-71de-46b0-a7af-398f7f2136e2",
+      "kind": "followup",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "action": "إرسال أسعار العمرة",
+        "due": "2026-10-14T14:00:00.000Z",
+        "channel": "واتساب",
+        "priority": "B",
+        "status": "done",
+        "contact": "أحمد",
+        "visitId": "45a63a05-6b2e-4dd7-8e42-c3cdf3123b9f",
+        "completedAt": "2026-10-15T13:01:47.565Z"
+      },
+      "createdAt": "2026-10-15T13:00:55.273Z",
+      "updatedAt": "2026-10-15T13:01:47.727Z"
+    },
+    {
+      "id": "8b908fe4-2ffe-4a30-8b9c-2c8a9f0b942d",
+      "kind": "visit",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "date": "2026-10-15T13:01:00.000Z",
+        "type": "أول زيارة",
+        "interest": "متوسط",
+        "services": [],
+        "outcome": "محتاج متابعة",
+        "channel": "واتساب",
+        "visitId": "",
+        "opportunityId": "",
+        "contact": "أحمد",
+        "nextAction": "إرسال أسعار العمرة",
+        "nextDue": "2026-10-14T14:00:00.000Z",
+        "needs": "محتاج أسعار مجموعات عمرة"
+      },
+      "createdAt": "2026-10-15T13:01:46.254Z",
+      "updatedAt": "2026-10-15T13:01:46.254Z"
+    },
+    {
+      "id": "062a092d-785a-442a-b1e9-326eb1c2059b",
+      "kind": "event",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "text": "إضافة زيارة",
+        "relatedId": "8b908fe4-2ffe-4a30-8b9c-2c8a9f0b942d"
+      },
+      "createdAt": "2026-10-15T13:01:46.254Z",
+      "updatedAt": "2026-10-15T13:01:46.254Z"
+    },
+    {
+      "id": "cf8fc390-76f7-425c-bc9c-b55f21dbd0c4",
+      "kind": "followup",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "action": "إرسال أسعار العمرة",
+        "due": "2026-10-14T14:00:00.000Z",
+        "channel": "واتساب",
+        "priority": "B",
+        "status": "pending",
+        "contact": "أحمد",
+        "visitId": "8b908fe4-2ffe-4a30-8b9c-2c8a9f0b942d"
+      },
+      "createdAt": "2026-10-15T13:01:46.254Z",
+      "updatedAt": "2026-10-15T13:01:46.254Z"
+    },
+    {
+      "id": "dfea18a2-e513-4f6f-a9f6-09a6268c352e",
+      "kind": "event",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "text": "تعديل متابعة",
+        "relatedId": "4f02e0db-71de-46b0-a7af-398f7f2136e2"
+      },
+      "createdAt": "2026-10-15T13:01:47.727Z",
+      "updatedAt": "2026-10-15T13:01:47.727Z"
+    },
+    {
+      "id": "38e2ab9e-82a6-48b4-8aa7-2eecdc5c9d35",
+      "kind": "opportunity",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "stage": "تفاوض / حجز تجريبي",
+        "service": "تذاكر طيران",
+        "visitId": "",
+        "opportunityId": "",
+        "description": "مجموعة عمرة تجريبية"
+      },
+      "createdAt": "2026-10-15T13:01:49.113Z",
+      "updatedAt": "2026-10-15T13:01:49.929Z"
+    },
+    {
+      "id": "ef7d4205-6205-4c63-930f-639d3325e134",
+      "kind": "event",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "text": "إضافة فرصة بيع",
+        "relatedId": "38e2ab9e-82a6-48b4-8aa7-2eecdc5c9d35"
+      },
+      "createdAt": "2026-10-15T13:01:49.113Z",
+      "updatedAt": "2026-10-15T13:01:49.113Z"
+    },
+    {
+      "id": "e303df2d-b9fa-4c21-86e7-5af2df48ecff",
+      "kind": "event",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "text": "تعديل فرصة بيع",
+        "relatedId": "38e2ab9e-82a6-48b4-8aa7-2eecdc5c9d35"
+      },
+      "createdAt": "2026-10-15T13:01:49.929Z",
+      "updatedAt": "2026-10-15T13:01:49.929Z"
+    },
+    {
+      "id": "5a800f58-5b12-479c-908f-758a574bf3e5",
+      "kind": "stop",
+      "companyId": "d42b2f4c-94c4-43ae-9bab-fa7c082fcff7",
+      "data": {
+        "date": "2026-10-15",
+        "order": 1,
+        "status": "planned",
+        "visitId": "",
+        "opportunityId": ""
+      },
+      "createdAt": "2026-10-15T13:01:50.255Z",
+      "updatedAt": "2026-10-15T13:01:50.255Z"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+$ turbo build
+• turbo 2.9.18
+
+   • Packages in scope: @template/desktop, @template/mobile, @template/web
+   • Running build in 3 packages
+   • Remote caching disabled
+
+@template/desktop:build: cache hit, replaying logs c5759b1217a224cd
+@template/desktop:build: $ vite build
+@template/desktop:build: vite v5.4.21 building for production...
+@template/desktop:build: transforming...
+@template/desktop:build: ✓ 1 modules transformed.
+@template/desktop:build: rendering chunks...
+@template/desktop:build: computing gzip size...
+@template/desktop:build: dist/assets/__no-renderer-DoO8kPjk.js  0.06 kB │ gzip: 0.08 kB
+@template/desktop:build: ✓ built in 55ms
+@template/desktop:build: vite v5.4.21 building for production...
+@template/desktop:build: transforming...
+@template/desktop:build: ✓ 3 modules transformed.
+@template/desktop:build: rendering chunks...
+@template/desktop:build: computing gzip size...
+@template/desktop:build: dist-electron/main.js  4.61 kB │ gzip: 2.08 kB
+@template/desktop:build: ✓ built in 91ms
+@template/desktop:build: vite v5.4.21 building for production...
+@template/desktop:build: transforming...
+@template/desktop:build: ✓ 2 modules transformed.
+@template/desktop:build: rendering chunks...
+@template/desktop:build: computing gzip size...
+@template/desktop:build: dist-electron/preload.mjs  1.06 kB │ gzip: 0.43 kB
+@template/desktop:build: ✓ built in 14ms
+@template/web:build: cache miss, executing 4cd966d0eaa37d79
+@template/web:build: $ tsc --noEmit && vite build
+@template/web:build: vite v7.3.2 building client environment for production...
+@template/web:build: (node:4811) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+@template/web:build: (Use `node --trace-deprecation ...` to show where the warning was created)
+@template/web:build: transforming...
+@template/web:build: ✓ 1972 modules transformed.
+@template/web:build: rendering chunks...
+@template/web:build: computing gzip size...
+@template/web:build: dist/index.html                   0.65 kB │ gzip:   0.44 kB
+@template/web:build: dist/assets/index-6achk59R.css   40.49 kB │ gzip:   9.51 kB
+@template/web:build: dist/assets/index-BbEGq2VA.js   744.79 kB │ gzip: 218.53 kB
+@template/web:build: 
+@template/web:build: (!) Some chunks are larger than 500 kB after minification. Consider:
+@template/web:build: - Using dynamic import() to code-split the application
+@template/web:build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+@template/web:build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+@template/web:build: ✓ built in 2.63s
+
+ Tasks:    2 successful, 2 total
+Cached:    1 cached, 2 total
+  Time:    3.505s 
+
