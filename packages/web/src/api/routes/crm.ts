@@ -2,7 +2,7 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { db } from "../database";
-import { records } from "../database/schema";
+import { records, teamMemberships, companyAssignments, auditLogs } from "../database/schema";
 import { authed } from "../middleware/auth";
 import { statuses, stages } from "../../shared/constants";
 const kind = z.enum(["company", "visit", "followup", "opportunity", "stop", "event"]);

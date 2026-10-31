@@ -26,7 +26,8 @@ export const planning = {
   append: authed
     .input(z.object({ date: day, companyIds: z.array(z.string()).min(1).max(100) }))
     .handler(async ({ input, context }) => {
-      const scope = await planningScope(context.user.id);\n      const all = (await db.select().from(records)).filter(r => r.kind === "company" ? (scope.manager || scope.visible!.has(r.id)) : r.companyId ? (scope.manager || scope.visible!.has(r.companyId)) : r.ownerId === context.user.id);
+      const scope = await planningScope(context.user.id);
+      const all = (await db.select().from(records)).filter(r => r.kind === "company" ? (scope.manager || scope.visible!.has(r.id)) : r.companyId ? (scope.manager || scope.visible!.has(r.companyId)) : r.ownerId === context.user.id);
       const ids = [...new Set(input.companyIds)];
       if (ids.some((id) => !all.some((r) => r.id === id && r.kind === "company")))
         throw new ORPCError("BAD_REQUEST", { message: "شركة غير متاحة في حسابك" });
@@ -62,7 +63,8 @@ export const planning = {
   reorder: authed
     .input(z.object({ ids: z.array(z.string()).min(1).max(500) }))
     .handler(async ({ input, context }) => {
-      const all = await db.select().from(records).where(eq(records.ownerId, context.user.id));
+      const scope = await planningScope(context.user.id);
+      const all = (await db.select().from(records)).filter(r => r.kind === "company" ? (scope.manager || scope.visible!.has(r.id)) : r.companyId ? (scope.manager || scope.visible!.has(r.companyId)) : r.ownerId === context.user.id);
       const stops = input.ids.map((id) => all.find((r) => r.id === id && r.kind === "stop"));
       if (
         new Set(input.ids).size !== input.ids.length ||
