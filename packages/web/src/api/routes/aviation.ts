@@ -54,7 +54,7 @@ export const aviation = {
       after: { status: row.status, requestType: row.requestType, companyRecordId: row.companyRecordId },
       createdAt: timestamp,
     });
-    return row;
+    return { id: row.id, requestType: row.requestType, status: row.status, companyRecordId: row.companyRecordId, createdAt: row.createdAt };
   }),
 
   list: authed.handler(async ({ context }) => {
@@ -64,7 +64,7 @@ export const aviation = {
     if (m.department === "aviation" && m.role === "aviation_agent") {
       return db.select().from(serviceRequests).where(eq(serviceRequests.assignedTo, context.user.id));
     }
-    if (isSales(m)) return db.select().from(serviceRequests).where(eq(serviceRequests.createdBy, context.user.id));
+    if (isSales(m)) return db.select({ id: serviceRequests.id, requestType: serviceRequests.requestType, companyRecordId: serviceRequests.companyRecordId, status: serviceRequests.status, createdAt: serviceRequests.createdAt, updatedAt: serviceRequests.updatedAt }).from(serviceRequests).where(eq(serviceRequests.createdBy, context.user.id));
     throw new ORPCError("FORBIDDEN");
   }),
 
