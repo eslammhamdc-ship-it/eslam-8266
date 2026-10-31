@@ -13,6 +13,24 @@ const payload = z.object({
   companyId: z.string().nullable().optional(),
   allowDuplicate: z.boolean().optional(),
 });
+async function accessScope(userId: string) {
+  const [m] = await db.select().from(teamMemberships).where(and(
+    eq(teamMemberships.userId, userId), eq(teamMemberships.active, "active"),
+  )).limit(1);
+  if (!m) throw new ORPCError("FORBIDDEN", { message: "الحساب غير مضاف إلى فريق الفرع أو موقوف" });
+  if (m.role === "branch_manager" && m.department === "branch") return { manager: true, visible: null as Set<string> | null };
+  if (m.department !== "sales" || !["department_manager", "sales_rep"].includes(m.role))
+    throw new ORPCError("FORBIDDEN", { message: "قسمك غير مصرح له باستخدام CRM" });
+  if (m.role === "department_manager") return { manager: true, visible: null as Set<string> | null };
+  const [owned, assigned] = await Promise.all([
+    db.select({ id: records.id }).from(records).where(and(eq(records.ownerId, userId), eq(records.kind, "company"))),
+    db.select({ companyRecordId: companyAssignments.companyRecordId }).from(companyAssignments).where(eq(companyAssignments.assigneeUserId, userId)),
+  ]);
+  return { manager: false, visible: new Set([...owned.map(x => x.id), ...assigned.map(x => x.companyRecordId)]) };
+}
+function canSeeCompany(scope: Awaited<ReturnType<typeof accessScope>>, id: string | null) {
+  return scope.manager || (!!id && !!scope.visible?.has(id));
+}
 function normalize(s: any) {
   return String(s || "")
     .toLowerCase()
@@ -89,20 +107,25 @@ function validate(k: string, d: Record<string, any>) {
     throw new ORPCError("BAD_REQUEST");
 }
 export const crm = {
-  list: authed.handler(({ context }) =>
-    db.select().from(records).where(eq(records.ownerId, context.user.id)),
-  ),
+  list: authed.handler(async ({ context }) => {
+    const scope = await accessScope(context.user.id);
+    const all = await db.select().from(records);
+    return scope.manager ? all : all.filter(r => r.kind === "company"
+      ? canSeeCompany(scope, r.id)
+      : r.companyId ? canSeeCompany(scope, r.companyId) : r.ownerId === context.user.id);
+  }),
   save: authed.input(payload).handler(async ({ input, context }) => {
     validate(input.kind, input.data);
-    const ownerId = context.user.id,
-      now = new Date().toISOString();
-    const all = await db.select().from(records).where(eq(records.ownerId, ownerId));
+    const scope = await accessScope(context.user.id);
+    const ownerId = context.user.id, now = new Date().toISOString();
+    const all = await db.select().from(records);
     const old = input.id ? all.find((r) => r.id === input.id) : undefined;
+    if (old && !canSeeCompany(scope, old.kind === "company" ? old.id : old.companyId)) throw new ORPCError("NOT_FOUND");
     if (input.id && !old) throw new ORPCError("NOT_FOUND");
     if (old && old.kind !== input.kind) throw new ORPCError("BAD_REQUEST");
     if (
       input.kind !== "company" &&
-      (!input.companyId || !all.some((r) => r.id === input.companyId && r.kind === "company"))
+      (!input.companyId || !all.some((r) => r.id === input.companyId && r.kind === "company") || !canSeeCompany(scope, input.companyId))
     )
       throw new ORPCError("BAD_REQUEST", { message: "اختر شركة صحيحة" });
     for (const [key, k] of [
@@ -142,7 +165,7 @@ export const crm = {
     }
     const row = {
       id: old?.id || crypto.randomUUID(),
-      ownerId,
+      ownerId: old?.ownerId || ownerId,
       kind: input.kind,
       companyId: input.companyId || null,
       data: input.data,
@@ -154,9 +177,13 @@ export const crm = {
         ? db
             .update(records)
             .set(row)
-            .where(and(eq(records.id, row.id), eq(records.ownerId, ownerId)))
+            .where(and(eq(records.id, row.id), eq(records.ownerId, old?.ownerId || ownerId)))
         : db.insert(records).values(row),
     ];
+    if (input.kind === "company" && !old && !scope.manager) writes.push(db.insert(companyAssignments).values({
+      id: crypto.randomUUID(), companyRecordId: row.id, assigneeUserId: context.user.id,
+      assignedBy: context.user.id, createdAt: now, updatedAt: now,
+    }));
     if (input.kind !== "event" && input.kind !== "stop")
       writes.push(
         db.insert(records).values({
@@ -229,9 +256,11 @@ export const crm = {
     return row;
   }),
   remove: authed.input(z.object({ id: z.string() })).handler(async ({ input, context }) => {
-    const cond = and(eq(records.ownerId, context.user.id), eq(records.id, input.id));
-    const [row] = await db.select().from(records).where(cond);
-    if (!row) throw new ORPCError("NOT_FOUND");
+    const scope = await accessScope(context.user.id);
+    const [row] = await db.select().from(records).where(eq(records.id, input.id));
+    if (!row || !canSeeCompany(scope, row.kind === "company" ? row.id : row.companyId)) throw new ORPCError("NOT_FOUND");
+    if (!scope.manager && row.ownerId !== context.user.id) throw new ORPCError("FORBIDDEN");
+    const cond = and(eq(records.ownerId, row.ownerId), eq(records.id, input.id));
     if (row.kind === "company")
       await db.batch([
         db
@@ -257,6 +286,8 @@ export const crm = {
       }),
     )
     .handler(async ({ input, context }) => {
+      const scope = await accessScope(context.user.id);
+      if (!scope.manager) throw new ORPCError("FORBIDDEN");
       const ids = new Set(input.rows.filter((r) => r.kind === "company").map((r) => r.id));
       for (const r of input.rows) {
         validate(r.kind, r.data);
