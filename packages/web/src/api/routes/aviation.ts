@@ -2,7 +2,7 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { db } from "../database";
-import { auditLogs, records, serviceRequests, teamMemberships } from "../database/schema";
+import { auditLogs, records, serviceRequests, teamMemberships, companyAssignments } from "../database/schema";
 import { authed } from "../middleware/auth";
 
 async function member(userId: string) {
@@ -30,9 +30,11 @@ export const aviation = {
       const [company] = await db.select().from(records).where(
         and(eq(records.id, input.companyRecordId), eq(records.kind, "company")),
       ).limit(1);
-      if (!company || (!isBranch(m) && !(m.role === "department_manager" && m.department === "sales") && company.ownerId !== context.user.id)) {
-        throw new ORPCError("NOT_FOUND", { message: "الشركة غير متاحة لحسابك" });
-      }
+      const [assignment] = await db.select().from(companyAssignments).where(eq(companyAssignments.companyRecordId, input.companyRecordId)).limit(1);
+      const isSalesManager = m.role === "department_manager" && m.department === "sales";
+      const hasCompanyAccess = company && (isBranch(m) || isSalesManager ||
+        (company.ownerId === context.user.id && !assignment) || assignment?.assigneeUserId === context.user.id);
+      if (!hasCompanyAccess) throw new ORPCError("NOT_FOUND", { message: "الشركة غير متاحة لحسابك" });
     }
     const timestamp = new Date().toISOString();
     const row = {
