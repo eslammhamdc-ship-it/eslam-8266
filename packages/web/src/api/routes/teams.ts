@@ -2,7 +2,7 @@ import { z } from "zod";
 import { and, eq } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { db } from "../database";
-import { auditLogs, teamMemberships, user } from "../database/schema";
+import { auditLogs, teamMemberships, user, records, companyAssignments } from "../database/schema";
 import { authed } from "../middleware/auth";
 
 const roleSchema = z.enum(["department_manager", "sales_rep", "aviation_agent"]);
@@ -110,6 +110,41 @@ export const teams = {
       before: previous ? { department: previous.department, role: previous.role, active: previous.active } : null,
       after: { department: input.department, role: input.role, active: "active" },
       createdAt: timestamp,
+    });
+    return { ok: true };
+  }),
+
+
+  assignCompany: authed.input(z.object({
+    companyRecordId: z.string().min(1),
+    assigneeUserId: z.string().min(1),
+  })).handler(async ({ input, context }) => {
+    const actor = await membership(context.user.id);
+    if (!actor || !(
+      (actor.role === "branch_manager" && actor.department === "branch") ||
+      (actor.role === "department_manager" && actor.department === "sales")
+    )) throw new ORPCError("FORBIDDEN", { message: "إسناد الشركات متاح لمدير الفرع أو مدير المبيعات فقط" });
+    const [company] = await db.select().from(records).where(and(eq(records.id, input.companyRecordId), eq(records.kind, "company"))).limit(1);
+    if (!company) throw new ORPCError("NOT_FOUND", { message: "الشركة غير موجودة" });
+    const [assignee] = await db.select().from(teamMemberships).where(and(
+      eq(teamMemberships.userId, input.assigneeUserId), eq(teamMemberships.department, "sales"),
+      eq(teamMemberships.role, "sales_rep"), eq(teamMemberships.active, "active"),
+    )).limit(1);
+    if (!assignee) throw new ORPCError("BAD_REQUEST", { message: "الموظف المحدد ليس مندوب مبيعات نشطًا" });
+    const [previous] = await db.select().from(companyAssignments).where(eq(companyAssignments.companyRecordId, input.companyRecordId)).limit(1);
+    const timestamp = now();
+    if (previous) await db.update(companyAssignments).set({
+      assigneeUserId: input.assigneeUserId, assignedBy: context.user.id, updatedAt: timestamp,
+    }).where(eq(companyAssignments.id, previous.id));
+    else await db.insert(companyAssignments).values({
+      id: crypto.randomUUID(), companyRecordId: input.companyRecordId, assigneeUserId: input.assigneeUserId,
+      assignedBy: context.user.id, createdAt: timestamp, updatedAt: timestamp,
+    });
+    await db.insert(auditLogs).values({
+      id: crypto.randomUUID(), actorUserId: context.user.id, action: "sales.company.assigned",
+      entityType: "crm_company", entityId: input.companyRecordId,
+      before: previous ? { assigneeUserId: previous.assigneeUserId } : null,
+      after: { assigneeUserId: input.assigneeUserId }, createdAt: timestamp,
     });
     return { ok: true };
   }),

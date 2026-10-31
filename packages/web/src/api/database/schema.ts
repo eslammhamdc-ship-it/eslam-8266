@@ -73,3 +73,20 @@ export const auditLogs = sqliteTable(
     index("audit_logs_entity").on(t.entityType, t.entityId),
   ],
 );
+
+/** Explicit sales ownership; legacy records remain with their original owner until assigned. */
+export const companyAssignments = sqliteTable(
+  "company_assignments",
+  {
+    id: text("id").primaryKey(),
+    companyRecordId: text("company_record_id").notNull().references(() => records.id, { onDelete: "cascade" }),
+    assigneeUserId: text("assignee_user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+    assignedBy: text("assigned_by").notNull(),
+    createdAt: text("created_at").notNull(),
+    updatedAt: text("updated_at").notNull(),
+  },
+  (t) => [
+    uniqueIndex("company_assignments_company_unique").on(t.companyRecordId),
+    index("company_assignments_assignee").on(t.assigneeUserId),
+  ],
+);

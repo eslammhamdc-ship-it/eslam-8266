@@ -186,7 +186,7 @@ export const crm = {
         db
           .update(records)
           .set({ data: { ...c.data, status, priority }, updatedAt: now })
-          .where(and(eq(records.id, c.id), eq(records.ownerId, ownerId))),
+          .where(and(eq(records.id, c.id), eq(records.ownerId, c.ownerId))),
       );
       writes.push(
         db.insert(records).values({
