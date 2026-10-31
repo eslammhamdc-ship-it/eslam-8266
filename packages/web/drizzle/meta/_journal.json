@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793450000000,
+      "tag": "0000_branch_team_aviation_audit",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793450001000,
+      "tag": "0001_company_assignments",
+      "breakpoints": true
+    }
+  ]
+}

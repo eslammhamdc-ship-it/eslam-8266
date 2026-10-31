@@ -2,8 +2,22 @@ import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { db } from "../database";
-import { records } from "../database/schema";
+import { records, teamMemberships, companyAssignments } from "../database/schema";
 import { authed } from "../middleware/auth";
+async function planningScope(userId: string) {
+  const [m] = await db.select().from(teamMemberships).where(and(
+    eq(teamMemberships.userId, userId), eq(teamMemberships.active, "active"),
+  )).limit(1);
+  if (!m || !((m.role === "branch_manager" && m.department === "branch") ||
+    (m.department === "sales" && ["department_manager", "sales_rep"].includes(m.role))))
+    throw new ORPCError("FORBIDDEN", { message: "غير مصرح لك باستخدام خطة الزيارات" });
+  if (m.role === "branch_manager" || m.role === "department_manager") return { manager: true, visible: null as Set<string> | null };
+  const [owned, assigned] = await Promise.all([
+    db.select({ id: records.id }).from(records).where(and(eq(records.ownerId, userId), eq(records.kind, "company"))),
+    db.select({ companyRecordId: companyAssignments.companyRecordId }).from(companyAssignments).where(eq(companyAssignments.assigneeUserId, userId)),
+  ]);
+  return { manager: false, visible: new Set([...owned.map(x => x.id), ...assigned.map(x => x.companyRecordId)]) };
+}
 const day = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -12,7 +26,8 @@ export const planning = {
   append: authed
     .input(z.object({ date: day, companyIds: z.array(z.string()).min(1).max(100) }))
     .handler(async ({ input, context }) => {
-      const all = await db.select().from(records).where(eq(records.ownerId, context.user.id));
+      const scope = await planningScope(context.user.id);
+      const all = (await db.select().from(records)).filter(r => r.kind === "company" ? (scope.manager || scope.visible!.has(r.id)) : r.companyId ? (scope.manager || scope.visible!.has(r.companyId)) : r.ownerId === context.user.id);
       const ids = [...new Set(input.companyIds)];
       if (ids.some((id) => !all.some((r) => r.id === id && r.kind === "company")))
         throw new ORPCError("BAD_REQUEST", { message: "شركة غير متاحة في حسابك" });
@@ -48,7 +63,8 @@ export const planning = {
   reorder: authed
     .input(z.object({ ids: z.array(z.string()).min(1).max(500) }))
     .handler(async ({ input, context }) => {
-      const all = await db.select().from(records).where(eq(records.ownerId, context.user.id));
+      const scope = await planningScope(context.user.id);
+      const all = (await db.select().from(records)).filter(r => r.kind === "company" ? (scope.manager || scope.visible!.has(r.id)) : r.companyId ? (scope.manager || scope.visible!.has(r.companyId)) : r.ownerId === context.user.id);
       const stops = input.ids.map((id) => all.find((r) => r.id === id && r.kind === "stop"));
       if (
         new Set(input.ids).size !== input.ids.length ||
@@ -65,7 +81,7 @@ export const planning = {
           db
             .update(records)
             .set({ data: { ...r!.data, order: i + 1 }, updatedAt: new Date().toISOString() })
-            .where(and(eq(records.id, r!.id), eq(records.ownerId, context.user.id))),
+            .where(and(eq(records.id, r!.id), eq(records.ownerId, r!.ownerId))),
         ) as any,
       );
       return { ok: true };
