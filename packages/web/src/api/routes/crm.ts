@@ -26,7 +26,11 @@ async function accessScope(userId: string) {
     db.select({ id: records.id }).from(records).where(and(eq(records.ownerId, userId), eq(records.kind, "company"))),
     db.select({ companyRecordId: companyAssignments.companyRecordId }).from(companyAssignments).where(eq(companyAssignments.assigneeUserId, userId)),
   ]);
-  return { manager: false, visible: new Set([...owned.map(x => x.id), ...assigned.map(x => x.companyRecordId)]) };
+  const assignedIds = new Set(assigned.map(x => x.companyRecordId));
+  return { manager: false, visible: new Set([
+    ...owned.map(x => x.id).filter(id => !assignedIds.has(id)),
+    ...assigned.map(x => x.companyRecordId),
+  ]) };
 }
 function canSeeCompany(scope: Awaited<ReturnType<typeof accessScope>>, id: string | null) {
   return scope.manager || (!!id && !!scope.visible?.has(id));
