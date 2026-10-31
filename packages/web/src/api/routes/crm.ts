@@ -267,9 +267,8 @@ export const crm = {
     const cond = and(eq(records.ownerId, row.ownerId), eq(records.id, input.id));
     if (row.kind === "company")
       await db.batch([
-        db
-          .delete(records)
-          .where(and(eq(records.ownerId, context.user.id), eq(records.companyId, row.id))),
+        db.delete(companyAssignments).where(eq(companyAssignments.companyRecordId, row.id)),
+        db.delete(records).where(eq(records.companyId, row.id)),
         db.delete(records).where(cond),
       ]);
     else await db.delete(records).where(cond);
