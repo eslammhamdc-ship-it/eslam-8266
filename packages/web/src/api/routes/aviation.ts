@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { db } from "../database";
 import { auditLogs, records, serviceRequests, teamMemberships } from "../database/schema";
