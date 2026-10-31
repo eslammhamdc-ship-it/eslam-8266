@@ -81,7 +81,7 @@ export const planning = {
           db
             .update(records)
             .set({ data: { ...r!.data, order: i + 1 }, updatedAt: new Date().toISOString() })
-            .where(and(eq(records.id, r!.id), eq(records.ownerId, context.user.id))),
+            .where(and(eq(records.id, r!.id), eq(records.ownerId, r!.ownerId))),
         ) as any,
       );
       return { ok: true };
